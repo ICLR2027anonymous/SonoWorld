@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="SonoWorld: Towards Interactive Pose-Controllable Ultrasound World Models">
+  <meta name="keywords" content="Ultrasound, World Model, Robotic Ultrasound, Video Diffusion, Pose Control">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SonoWorld: Towards Interactive Pose-Controllable Ultrasound World Models</title>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
+        rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
+  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
+  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+</head>
+
+<body>
+
+<section class="hero">
+  <div class="hero-body">
+    <div class="container is-max-desktop">
+      <div class="columns is-centered">
+        <div class="column has-text-centered">
+
+          <h1 class="title is-1 publication-title">
+            SonoWorld: Towards Interactive Pose-Controllable Ultrasound World Models
+          </h1>
+
+          <div class="is-size-5 publication-authors">
+            <span class="author-block">Anonymized Authors</span>
+          </div>
+
+          <div class="is-size-5 publication-authors">
+            <!-- TODO: venue, e.g. "XXX 2027 (Under Review)" -->
+            <span class="author-block">Under Review</span>
+          </div>
+
+          <div class="publication-links">
+
+            <!-- PDF Link -->
+            <span class="link-block">
+              <a href="#"
+                 class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                    <i class="fas fa-file-pdf"></i>
+                </span>
+                <span>Paper (Coming Soon)</span>
+              </a>
+            </span>
+
+            <!-- Code Link -->
+            <span class="link-block">
+              <a href="#"
+                 class="external-link button is-normal is-rounded is-dark">
+                <span class="icon">
+                    <i class="fab fa-github"></i>
+                </span>
+                <span>GitHub (Coming Soon)</span>
+              </a>
+            </span>
+
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Abstract -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Abstract</h2>
+        <div class="content has-text-justified">
+
+          <p>
+          Robotic ultrasound can standardize image acquisition and reduce operator
+          workload and variability, but policy learning remains limited by the lack of
+          realistic, controllable simulation environments: physical phantoms and acoustic
+          simulators exhibit a substantial domain gap from clinical images, and
+          trial-and-error exploration on patients is unsafe. While controllable world
+          models have advanced rapidly in natural-image domains, ultrasound world modeling
+          remains challenging because each frame captures only a cross-section of
+          unobserved 3D anatomy, causing small probe motions to induce large appearance
+          changes. Existing approaches rely on robot-tracked poses and latent-space
+          prediction, but do not directly generate the observations required for
+          interactive control.
+          </p>
+
+          <p>
+          We propose SonoWorld, a causal ultrasound world model that learns video dynamics
+          from unlabeled clinical videos and grounds them to 6-DoF control using a small
+          set of freehand clinical scans tracked with an electromagnetic (EM) sensor.
+          SonoWorld is trained in three stages: pretraining a latent-action-conditioned
+          video diffusion model on around 6.7 million unlabeled multi-organ ultrasound
+          frames; grounding the learned video dynamics to metric probe poses with a small
+          EM-tracked thyroid dataset; and applying distribution matching distillation to
+          enable causal, long-horizon autoregressive generation with selectively caching
+          eviction tokens at inference time.
+          </p>
+
+          <p>
+          We evaluate controllability through pose-following fidelity, round-trip
+          consistency, and axis-specific control under synthetic actions on held-out
+          tracked scans, and further validate it with a user study. In model-based action
+          discrimination, SonoWorld reaches thyroid target planes with a success rate
+          above 74%. To our knowledge, SonoWorld is the first causal, pose-controllable
+          ultrasound world model learned primarily from freehand clinical videos,
+          providing a data-driven interactive environment for robotic ultrasound data
+          acquisition and policy evaluation.
+          </p>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Method -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Method Overview</h2>
+
+    <div class="content has-text-justified">
+      <p>
+        SonoWorld is trained in three stages:
+      </p>
+      <ul>
+        <li><b>Latent-Action Pretraining</b> — a latent-action-conditioned video diffusion model learns ultrasound dynamics from ~6.7M unlabeled multi-organ clinical frames</li>
+        <li><b>Pose Grounding</b> — the learned dynamics are grounded to metric 6-DoF probe poses using a small EM-tracked freehand thyroid dataset</li>
+        <li><b>Causal Distillation</b> — distribution matching distillation enables causal, long-horizon autoregressive generation, with selective eviction-token caching at inference</li>
+      </ul>
+    </div>
+
+    <!-- TODO: add framework figure to static/images/ and uncomment
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <img src="static/images/SonoWorld.png" alt="SonoWorld Framework">
+      </div>
+    </div>
+    -->
+
+  </div>
+</section>
+
+<!-- Results -->
+<section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3">Results</h2>
+
+    <div class="content has-text-justified">
+      <p>
+        Controllability is evaluated on held-out EM-tracked scans:
+      </p>
+
+      <ul>
+        <li><b>Pose-Following Fidelity</b> — generated views track commanded probe trajectories</li>
+        <li><b>Round-Trip Consistency</b> — returning to a pose recovers the same anatomy</li>
+        <li><b>Axis-Specific Control</b> — responses to synthetic actions along each DoF</li>
+        <li><b>Model-Based Action Discrimination:</b> &gt; 74% success reaching thyroid target planes</li>
+        <li><b>User Study</b> — interactive validation of controllability</li>
+      </ul>
+    </div>
+
+    <!-- TODO: add qualitative results / rollout videos and uncomment
+    <div class="columns is-centered">
+      <div class="column is-full">
+        <img src="static/images/qualitative_results.png" alt="Qualitative Results">
+      </div>
+    </div>
+    -->
+
+  </div>
+</section>
+
+<!-- Citation -->
+<section class="section" id="BibTeX">
+  <div class="container is-max-desktop content">
+    <h2 class="title">BibTeX</h2>
+<pre><code>@inproceedings{sonoworld2027,
+  title={SonoWorld: Towards Interactive Pose-Controllable Ultrasound World Models},
+  author={Anonymous},
+  year={2027}
+}
+</code></pre>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <div class="content has-text-centered">
+      <p>
+        This page was built using the Academic Project Page Template.
+      </p>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>
